@@ -10,5 +10,11 @@ class PennRemoteUserBackend(RemoteUserBackend):
     user.first_name = results['first_name']
     user.last_name  = results['last_name']
     user.email      = results['email'].replace('exchange.', '')
-    user.is_staff   = True
+    user.is_staff   = False
+    user.is_undergrad = False
+    user.is_mba = False
+    user.is_phd = False
+    user.is_faculty = False
+    user.is_wcit = False
+
     user.save()
