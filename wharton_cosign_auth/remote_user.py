@@ -6,6 +6,13 @@ from wharton_cosign_auth.utilities import call_wisp_api
 
 class WhartonRemoteUserBackend(RemoteUserBackend):
 
+    def authenticate(self, request, remote_user):
+        # I think we need to implement this and only create the user if they
+        # are in wharton AD.  I tried but was unable to get it to work when i
+        # copied the method from
+        # https://github.com/django/django/blob/master/django/contrib/auth/backends.py#L128
+        pass
+
     def configure_user(self, user):
         response = call_wisp_api(
             'https://apps.wharton.upenn.edu/wisp/api/v1/adusers', {'username': user.username})
@@ -21,6 +28,8 @@ class WhartonRemoteUserBackend(RemoteUserBackend):
             '''
             user.is_staff = False
             user.save()
+
+            return user
         else:
             '''
             Even though someone can login with Pennkey, there is a chance
